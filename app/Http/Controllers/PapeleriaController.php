@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Papeleria;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class PapeleriaController extends Controller
 {
@@ -79,24 +81,40 @@ class PapeleriaController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
-    {
-        try {
-            // Buscar el producto por ID
-            $papeleria = Papeleria::findOrFail($id);
-            
-            // Actualizar el producto
-            $papeleria->update($request->all());
-            
-            return response()->json([
-                'mensaje' => 'Producto actualizado correctamente',
-                'producto' => $papeleria
-            ], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Producto no encontrado'], 404);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Error al actualizar el producto', 'detalle' => $e->getMessage()], 500);
-        }
+{
+    try {
+        Log::info('Datos recibidos para actualización:', $request->all());
+        
+        $papeleria = Papeleria::findOrFail($id);
+        
+        $validatedData = $request->validate([
+            'tipo_papeleria' => 'sometimes|string|max:255',
+            'cantidad_papeleria' => 'sometimes|integer|min:0',
+            'oficina_papeleria' => 'sometimes|string|max:255',
+            'fecha_papeleria' => 'sometimes|date_format:Y-m-d',
+            'fechaAsesor_papeleria' => 'sometimes|nullable|date_format:Y-m-d',
+        ]);
+        
+        
+        $papeleria->update($validatedData);
+        
+        return response()->json([
+            'mensaje' => 'Producto actualizado correctamente',
+            'producto' => $papeleria
+        ], 200);
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => 'Producto no encontrado'], 404);
+    } catch (ValidationException $e) {
+        return response()->json(['error' => 'Datos inválidos', 'detalles' => $e->errors()], 422);
+    } catch (\Exception $e) {
+        Log::error('Error al actualizar: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+        
+        return response()->json([
+            'error' => 'Error al actualizar el producto', 
+            'detalle' => $e->getMessage()
+        ], 500);
     }
+}
 
     /**
      * Eliminar un producto de papelería.

@@ -5,15 +5,28 @@ Esta API permite la autenticación y gestión de usuarios registrados.
 ## Pasos para iniciar
 
 1. Clonar el repositorio.
-2. Iniciar el servidor con el comando:
-    ```bash
-    php artisan serve
-    ```
-3. Crear la base de datos:
-    ```sql
-    CREATE DATABASE inventario;
-    ```
-4. Importar la base de datos desde el archivo `inventario.sql` ubicado en la carpeta `database`.
+2. Instalar las dependencias con el comando:
+  ```bash
+  composer install
+  ```
+3. Crear la carpeta `.env` e ingresar los siguientes datos:
+  ```
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=inventario
+  DB_USERNAME=root
+  DB_PASSWORD=
+  ```
+4. Iniciar el servidor con el comando:
+  ```bash
+  php artisan serve
+  ```
+5. Crear la base de datos:
+  ```sql
+  CREATE DATABASE inventario;
+  ```
+6. Importar la base de datos desde el archivo `inventario.sql` ubicado en la carpeta `database`.
 
 ## Base URL
 
@@ -46,10 +59,10 @@ paths:
               properties:
                 email:
                   type: string
-                  example: user@example.com
+                  example: user@example.com , admin@example.com
                 password:
                   type: string
-                  example: password123
+                  example: 123456
       responses:
         '200':
           description: Inicio de sesión exitoso
@@ -136,22 +149,3 @@ paths:
       responses:
         '204':
           description: Usuario eliminado con éxito
-
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: Juan Pérez
-        email:
-          type: string
-          example: user@example.com
-        password:
-          type: string
-          example: password123
-
