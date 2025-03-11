@@ -21,11 +21,17 @@ class Papeleria extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'precio',
-        'existencias',
-        'imagen',
-        'categoria',
+        'tipo_papeleria',
+        'cantidad_papeleria',
+        'oficina_papeleria',
+        'fecha_papeleria',
+        'fechaAsesor_papeleria',
     ];
+
+    /**
+     * La clave primaria asociada con la tabla.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id_papeleria';
 }

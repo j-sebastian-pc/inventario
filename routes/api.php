@@ -17,6 +17,7 @@ Route::middleware('auth:api')->group(function () {
     // Rutas de papelería para cualquier usuario autenticado
     Route::prefix('papeleria')->group(function () {
         Route::get('/', [PapeleriaController::class, 'index']);
+        Route::get('/{id}', [PapeleriaController::class, 'show']);
     });
 });
 
@@ -31,8 +32,9 @@ Route::middleware(['auth:api', 'role:admin'])->group(function () {
 
 // Rutas exclusivas para usuarios regulares
 Route::middleware(['auth:api', 'role:user'])->group(function () {
-    Route::put('papeleria/{id}', [PapeleriaController::class, 'update']);
+    Route::post('papeleria', [PapeleriaController::class, 'store']); // Solo pueden agregar
 });
+
 Route::get('/prueba', function () {
     return "Esta ruta funciona correctamente";
 });
