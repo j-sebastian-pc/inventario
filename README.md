@@ -1,6 +1,6 @@
 ## Descripción General de la API
 
-Esta API permite la autenticación de usuarios y la gestión de usuarios registrados.
+Esta API permite la autenticación y gestión de usuarios registrados.
 
 ## Pasos para iniciar
 
@@ -9,6 +9,11 @@ Esta API permite la autenticación de usuarios y la gestión de usuarios registr
     ```bash
     php artisan serve
     ```
+3. Crear la base de datos:
+    ```sql
+    CREATE DATABASE inventario;
+    ```
+4. Importar la base de datos desde el archivo `inventario.sql` ubicado en la carpeta `database`.
 
 ## Base URL
 
@@ -16,5 +21,4 @@ Servidor local de desarrollo: `http://localhost/api`
 
 ## Documentación Adicional
 
-Puedes encontrar la documentación completa de la API en SwaggerHub:
-[Documentación de la API](https://app.swaggerhub.com/apis-docs/juansebastianparadac/inventario/1.0.0)
+Puedes encontrar la documentación completa de la API en SwaggerHub: [Documentación de la API](https://app.swaggerhub.com/apis-docs/juansebastianparadac/inventario/1.0.0)
